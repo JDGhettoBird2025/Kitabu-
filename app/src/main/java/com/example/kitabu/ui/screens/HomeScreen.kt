@@ -18,15 +18,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
+import com.example.kitabu.data.local.entity.Book
 
 @Composable
 fun HomeScreen(
+    books: List<Book>,
     onBrowseBooksClick: () -> Unit,
     onReservationsClick: () -> Unit,
     onRentalsClick: () -> Unit,
     onProfileClick: () -> Unit,
     onFeaturedBookClick: () -> Unit
 ) {
+
+    val featuredBook = books.firstOrNull()
 
     Column(
         modifier = Modifier
@@ -50,14 +56,6 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(30.dp))
 
-        Button(
-            onClick = onBrowseBooksClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Browse Books")
-        }
-
-        Spacer(modifier = Modifier.height(30.dp))
 
         Text(
             text = "Featured Book",
@@ -80,31 +78,38 @@ fun HomeScreen(
             ) {
 
                 Text(
-                    text = "The Great Gatsby",
+                    text = featuredBook?.title ?: "Loading book...",
                     style = MaterialTheme.typography.titleLarge
                 )
 
                 Spacer(modifier = Modifier.height(6.dp))
 
                 Text(
-                    text = "F. Scott Fitzgerald",
+                    text = featuredBook?.author ?: "",
                     style = MaterialTheme.typography.bodyLarge
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "A classic American novel about wealth, ambition and the American Dream.",
+                    text = featuredBook?.description ?: "",
                     style = MaterialTheme.typography.bodyMedium
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
                     text = "Available to reserve",
                     style = MaterialTheme.typography.labelLarge
                 )
             }
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(
+            onClick = onBrowseBooksClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Browse Books")
         }
 
         Spacer(modifier = Modifier.height(25.dp))
